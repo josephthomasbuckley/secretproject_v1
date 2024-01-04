@@ -16,7 +16,7 @@ sp_oauth = SpotifyOAuth(
     client_id=client_id,
     client_secret=client_secret,
     redirect_uri=redirect_uri,
-    scope=["user-library-read", "user-read-playback-state", "user-read-currently-playing"],
+    scope=["user-library-read", "user-read-playback-state", "user-read-currently-playing", "playlist-read-private", "user-top-read", "user-read-private"],
     cache_path=".spotify_cache",
 )
 
@@ -43,6 +43,12 @@ def profile():
 
     sp = Spotify(auth=token_info['access_token'])
     user_info = sp.current_user()
+    top_artist_info = sp.current_user_top_artists(limit=20, offset=0, time_range='short_term')
+    top_song_info = sp.current_user_top_tracks(limit=50, offset=0, time_range='short_term')
+    top_song_info2 = sp.current_user_top_tracks(limit=50, offset=48, time_range='short_term')
+    output = [x['name'] for x in top_song_info2['items']]
+    output2 = [x['name'] for x in top_song_info['items']]
+    print([output, output2])
     return f'Logged in as {user_info["display_name"]}'
 
 if __name__ == '__main__':
