@@ -28,6 +28,7 @@ def rymScraper(song_list):
     list_album_infos = network.get_albums_infos(names=song_list)
     df = pd.DataFrame(list_album_infos)
     print(df[['Name', 'RYM Rating']])
+    df.to_csv('dope.csv')
 
 @app.route('/')
 def index():
